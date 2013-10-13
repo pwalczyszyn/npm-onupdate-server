@@ -1,0 +1,14 @@
+{
+  "name": "onUpdate.info",
+  "version": "2.0.0",
+  "private": true,
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "express": "3.4.0",
+    "mongoose": "~3.6.20",
+    "ejs": "~0.8.4",
+    "async": "~0.2.9"
+  }
+}
