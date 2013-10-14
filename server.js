@@ -13,6 +13,7 @@ mongoose.connect(config.db);
 
 // Load models
 require('./config/models');
+require('./config/auth')(app);
 require('./config/express')(app);
 require('./config/routes')(app);
 

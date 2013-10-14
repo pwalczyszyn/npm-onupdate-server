@@ -1,8 +1,13 @@
 /* jshint node: true */
-var routes = require('../server/routes');
+var passport = require('passport'),
+    routes = require('../server/routes');
 
 module.exports = function (app) {
 
-    app.get('/api/v1/login', routes.apiv1.login);
+    app.post('/api/v1/authenticate', routes.apiv1.authenticate);
+
+    app.get('/api/v1/alerts', passport.authenticate('bearer', {
+        session: false
+    }), routes.apiv1.alerts);
 
 };

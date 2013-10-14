@@ -11,7 +11,8 @@ module.exports = function (app) {
     app.use(express.static(path.join(__dirname, '../client/static')));
     app.use(express.favicon());
     app.use(express.logger('dev'));
-    app.use(express.bodyParser());
+    //    app.use(express.bodyParser());
+    app.use(express.json()).use(express.urlencoded());
     app.use(express.methodOverride());
     app.use(app.router);
 
@@ -19,5 +20,6 @@ module.exports = function (app) {
     if ('development' == app.get('env')) {
         app.use(express.errorHandler());
     }
+
 
 };

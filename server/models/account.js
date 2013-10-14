@@ -7,12 +7,8 @@ module.exports = function () {
 
         email: {
             type: String,
-            default: ''
-        },
-
-        activationCode: {
-            type: String,
-            default: null
+            required: true,
+            unique: true
         },
 
         active: {
@@ -20,16 +16,26 @@ module.exports = function () {
             default: false
         },
 
-        pwdHash: {
-            type: String,
-            default: null
-        },
+        activationCode: String,
 
-        newPwdCode: {
-            type: String,
-            default: null
-        }
+        pwdHash: String,
 
+        newPwdCode: String,
+
+        accessToken: String
+
+    });
+
+    AccountSchema.static('findByAccessToken', function (token, callback) {
+        this.findOne({
+            accessToken: token
+        }, callback);
+    });
+
+    AccountSchema.static('findByEmail', function (email, callback) {
+        this.findOne({
+            email: email
+        }, callback);
     });
 
     return AccountSchema;

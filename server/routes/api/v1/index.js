@@ -1,3 +1,4 @@
 /* jshint node:true */
 
-exports.login = require('./login');
+exports.alerts = require('./alerts');
+exports.authenticate = require('./authenticate');
