@@ -21,8 +21,8 @@ module.exports = function (req, res, next) {
             return next(err);
         }
 
-        if (passwordHash.verify(password, account.pwdHash)) {
-            
+        if (account && passwordHash.verify(password, account.pwdHash)) {
+
             res.writeHead(200, {
                 'Content-Type': 'application/json'
             });
@@ -31,7 +31,7 @@ module.exports = function (req, res, next) {
                 'token_type': 'Bearer'
             }));
             res.end();
-            
+
         } else {
             res.send(401);
         }

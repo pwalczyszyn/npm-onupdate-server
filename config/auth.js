@@ -15,7 +15,9 @@ module.exports = function (app) {
             if (!account) {
                 return done(null, false);
             }
-            return done(null, account);
+            return done(null, {
+                id: account._id
+            });
         });
     }));
 

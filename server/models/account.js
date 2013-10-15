@@ -6,7 +6,7 @@ module.exports = function () {
     var AccountSchema = new mongoose.Schema({
 
         email: {
-            type: String,
+            type: mongoose.SchemaTypes.Email,
             required: true,
             unique: true
         },
@@ -22,7 +22,12 @@ module.exports = function () {
 
         newPwdCode: String,
 
-        accessToken: String
+        accessToken: String,
+
+        alerts: [{
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'Package'
+        }]
 
     });
 

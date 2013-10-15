@@ -1,5 +1,4 @@
 /* jshint node:true */
 
-module.exports = function (req, res) {
-    res.send(200);
-};
+exports.add = require('./add');
+exports.list = require('./list');
