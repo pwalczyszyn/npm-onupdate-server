@@ -18,14 +18,17 @@ module.exports = function () {
 
         updated_at: Date,
 
-        checked_at: Date,
-
         homepage: String,
 
         description: String
 
     });
 
+    PackageSchema.static('findOneByName', function (name, callback) {
+        this.findOne({
+            name: name
+        }, callback);
+    });
     PackageSchema.static('findByNames', function (names, callback) {
         this.find({
             name: {

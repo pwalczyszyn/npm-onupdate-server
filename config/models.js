@@ -10,3 +10,6 @@ mongoose.model('Account', AccountSchema);
 
 var PackageSchema = require('../server/models/package')();
 mongoose.model('Package', PackageSchema);
+
+var MonitorSchema = require('../server/models/monitor')();
+mongoose.model('Monitor', MonitorSchema);

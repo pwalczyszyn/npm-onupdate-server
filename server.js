@@ -21,4 +21,11 @@ http.createServer(app).listen(app.get('port'), function () {
     console.log('Express server listening on port ' + app.get('port'));
 });
 
-require('./server/monitor').start();
+require('./server/monitors').npm.start(function (err) {
+    if (err) {
+        // TODO: send email to admin
+        return console.log('Error starting npm monitoring service: %s\n%s', err.message, err.stack);
+    }
+    
+    console.log('npm monitor started');
+});

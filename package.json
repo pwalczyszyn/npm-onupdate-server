@@ -17,6 +17,7 @@
     "mongoose-types": "~1.0.3",
     "hat": "0.0.3",
     "couchdb-api": "~1.2.2",
-    "changes": "~1.1.1"
+    "changes": "git://github.com/pwalczyszyn/changes.git#9ade3967b196c0fd204a99a0cff0a279f10b8252",
+    "request": "~2.27.0"
   }
 }
