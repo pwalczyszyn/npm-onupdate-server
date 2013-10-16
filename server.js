@@ -17,8 +17,8 @@ require('./config/auth')(app);
 require('./config/express')(app);
 require('./config/routes')(app);
 
-http.createServer(app).listen(app.get('port'), function () {
-    console.log('Express server listening on port ' + app.get('port'));
+http.createServer(app).listen(config.port, config.ip, function () {
+    console.log('Express server listening on port ' + config.port);
 });
 
 require('./server/monitors').npm.start(function (err) {
@@ -26,6 +26,5 @@ require('./server/monitors').npm.start(function (err) {
         // TODO: send email to admin
         return console.log('Error starting npm monitoring service: %s\n%s', err.message, err.stack);
     }
-    
     console.log('npm monitor started');
 });
