@@ -5,7 +5,7 @@ var path = require('path'),
 module.exports = function (app) {
 
     // all environments
-    app.set('port', process.env.PORT || 3000);
+    app.set('port', process.env.PORT || process.env.OPENSHIFT_NODEJS_PORT || 3000);
     app.set('views', path.join(__dirname, '../server/views'));
     app.set('view engine', 'ejs');
     app.use(express.static(path.join(__dirname, '../client/static')));
