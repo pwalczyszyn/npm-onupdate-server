@@ -24,12 +24,13 @@ module.exports = function () {
 
         accessToken: String,
 
-        alerts: [{
-            type: mongoose.Schema.Types.ObjectId,
-            ref: 'Package'
-        }]
+        notifiedAt: Date,
 
-    });
+        alerts: [{
+                type: mongoose.Schema.Types.ObjectId,
+                ref: 'Package'
+            }]
+        });
 
     AccountSchema.static('findByAccessToken', function (token, callback) {
         this.findOne({

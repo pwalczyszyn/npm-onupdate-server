@@ -17,4 +17,7 @@ module.exports = function (app) {
 
     var MonitorSchema = require('../server/models/monitor')();
     mongoose.model('Monitor', MonitorSchema);
+    
+    var NotifierSchema = require('../server/models/notifier')();
+    mongoose.model('Notifier', NotifierSchema);
 };
