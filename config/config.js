@@ -1,6 +1,17 @@
 /* jshint node:true*/
-module.exports = {
-    development: {
+
+var configs = {
+    defaults: {
+        title: 'onUpdate.info',
+        url: 'http://onupdate.info',
+        smtp_host: process.env.SMTP_HOST, // 'email-smtp.us-east-1.amazonaws.com'
+        smtp_tls: true,
+        smtp_user: process.env.SMTP_USER,
+        smtp_password: process.env.SMTP_PASSWORD,
+        noreply_email: 'noreply@onupdate.info'
+    },
+    local: {
+        url: 'http://localhost:3000',
         ip: '127.0.0.1',
         port: process.env.PORT || 3000,
         db: 'mongodb://localhost/onupdate'
@@ -11,3 +22,17 @@ module.exports = {
         db: 'mongodb://' + process.env.OPENSHIFT_MONGODB_DB_USERNAME + ':' + process.env.OPENSHIFT_MONGODB_DB_PASSWORD + '@' + process.env.OPENSHIFT_MONGODB_DB_HOST + ':' + process.env.OPENSHIFT_MONGODB_DB_PORT + '/' + process.env.OPENSHIFT_APP_NAME
     }
 };
+
+module.exports = function (app) {
+    applySettings(app, configs.defaults);
+    applySettings(app, configs[process.env.ONUPDATE_CONFIGURATION || 'local']);
+};
+
+function applySettings(app, settings) {
+    if (settings) {
+        var key;
+        for (key in settings) {
+            app.set(key, settings[key]);
+        }
+    }
+}

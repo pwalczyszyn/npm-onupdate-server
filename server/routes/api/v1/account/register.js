@@ -2,7 +2,8 @@
 var hat = require('hat'),
     mongoose = require('mongoose'),
     passwordHash = require('password-hash'),
-    Account = mongoose.model('Account');
+    Account = mongoose.model('Account'),
+    emails = require('../../../../emails');
 
 module.exports = function (req, res, next) {
 
@@ -34,29 +35,20 @@ module.exports = function (req, res, next) {
             return next(err);
         }
 
-        res.send(200);
+        emails('activation', {
+            to: account.email,
+            from: req.app.get('noreply_email'),
+            subject: '[' + req.app.get('title') + '] Activation',
+            locals: {
+                activationCode: account.activationCode
+            }
+        }, function (err) {
+
+            if (err) {
+                console.log('Error sending activation email: %s\n%s', err.message, err.stack);
+            }
+
+            res.send(200);
+        });
     });
-    //    Account.findByEmail(email, function (err, account) {
-    //        if (err) {
-    //            return next(err);
-    //        }
-    //
-    //        if (passwordHash.verify(password, account.pwdHash)) {
-    //            
-    //            res.writeHead(200, {
-    //                'Content-Type': 'application/json'
-    //            });
-    //            res.write(JSON.stringify({
-    //                'access_token': account.accessToken,
-    //                'token_type': 'Bearer'
-    //            }));
-    //            res.end();
-    //            
-    //        } else {
-    //            res.send(401);
-    //        }
-    //    });
-
-
-
 };

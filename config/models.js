@@ -2,14 +2,19 @@
 var mongoose = require('mongoose'),
     mongooseTypes = require('mongoose-types');
 
-// Adding additional types
-mongooseTypes.loadTypes(mongoose);
+module.exports = function (app) {
+    // Connect to db
+    mongoose.connect(app.get('db'));
 
-var AccountSchema = require('../server/models/account')();
-mongoose.model('Account', AccountSchema);
+    // Adding additional types
+    mongooseTypes.loadTypes(mongoose);
 
-var PackageSchema = require('../server/models/package')();
-mongoose.model('Package', PackageSchema);
+    var AccountSchema = require('../server/models/account')();
+    mongoose.model('Account', AccountSchema);
 
-var MonitorSchema = require('../server/models/monitor')();
-mongoose.model('Monitor', MonitorSchema);
+    var PackageSchema = require('../server/models/package')();
+    mongoose.model('Package', PackageSchema);
+
+    var MonitorSchema = require('../server/models/monitor')();
+    mongoose.model('Monitor', MonitorSchema);
+};

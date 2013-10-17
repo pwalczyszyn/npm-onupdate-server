@@ -1,6 +1,5 @@
 /* jshint node:true */
 
 exports.alerts = require('./alerts');
-exports.authenticate = require('./authenticate');
-exports.register = require('./register');
+exports.account = require('./account');
 exports.checktoken = require('./checktoken');

@@ -2,25 +2,29 @@
 
 var express = require('express'),
     http = require('http'),
-    app = express();
+    app = module.exports = express();
 
-var env = process.env.NODE_ENV || 'development',
-    config = require('./config/config')[env],
-    mongoose = require('mongoose');
-
-// Connect to db
-mongoose.connect(config.db);
+// Set the configurations
+require('./config/config')(app);
 
 // Load models
-require('./config/models');
+require('./config/models')(app);
+
+// Configure auth
 require('./config/auth')(app);
+
+// Configure express
 require('./config/express')(app);
+
+// Configure routes
 require('./config/routes')(app);
 
-http.createServer(app).listen(config.port, config.ip, function () {
-    console.log('Express server listening on port ' + config.port);
+// Start the server
+http.createServer(app).listen(app.get('port'), app.get('ip'), function () {
+    console.log('Express server listening on port ' + app.get('port'));
 });
 
+// Start npm monitoring service
 require('./server/monitors').npm.start(function (err) {
     if (err) {
         // TODO: send email to admin
