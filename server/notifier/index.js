@@ -94,7 +94,7 @@ Notifier.prototype._execute = function () {
                 if (err) {
                     return callback(err);
                 }
-                
+
                 var aIds = accounts.map(function (account) {
                     return account._id;
                 });
@@ -178,13 +178,7 @@ Notifier.prototype._sendNotifications = function () {
                     locals: {
                         updates: updatedPackages
                     }
-                }, function (err) {
-                    if (err) {
-                        return callback(err);
-                    }
-
-                    callback();
-                });
+                }, callback);
             },
 
             function updateAccount(callback) {
