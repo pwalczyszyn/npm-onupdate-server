@@ -16,8 +16,13 @@ module.exports = function () {
             required: true
         },
 
-        executeAtStart: Boolean
-    });
+        executeAtStart: Boolean,
+
+        accountsToNotify: [{
+                type: mongoose.Schema.Types.ObjectId,
+                ref: 'Account'
+            }]
+        });
 
     return NotifierSchema;
 };

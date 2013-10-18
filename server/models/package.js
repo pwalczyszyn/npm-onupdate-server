@@ -16,7 +16,7 @@ module.exports = function () {
             required: true
         },
 
-        updated_at: Date,
+        updatedAt: Date,
 
         homepage: String,
 

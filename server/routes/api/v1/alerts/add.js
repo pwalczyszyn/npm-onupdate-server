@@ -39,9 +39,7 @@ module.exports = function (req, res, next) {
                 return package._id;
             });
 
-            Account.update({
-                _id: req.user.id
-            }, {
+            Account.findByIdAndUpdate(req.user.id, {
                 $addToSet: {
                     alerts: {
                         $each: ids
