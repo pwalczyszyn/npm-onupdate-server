@@ -7,39 +7,32 @@ var app = require('../../server'),
     mongoose = require('mongoose'),
     NotifierModel = mongoose.model('Notifier'),
     Account = mongoose.model('Account'),
-    Package = mongoose.model('Package'),
-    notifiers = {};
+    Package = mongoose.model('Package');
 
 exports.start = function notifierStart(notifierId, callback) {
     NotifierModel.findById(notifierId, function (err, notifierModel) {
         if (err) {
             return callback(err);
         }
-
         if (!notifierModel) {
             return callback(new Error('Notifier model not found: ' + notifierId));
         }
-        notifiers[notifierId] = new Notifier(notifierModel).start();
-        callback();
+
+        callback(null, new Notifier(notifierModel).start());
     });
 };
 
-exports.stop = function notifierStop(notifierId) {
-    var notifier = notifiers[notifierId];
-    if (notifier) {
-        notifier.stop();
-        delete notifiers[notifierId];
-    }
-};
-
-var Notifier = function (notifierModel) {
+var Notifier = function NotifierConstructor(notifierModel) {
     this.model = notifierModel;
     this.intervalId = null;
     this.accountsToNotify = this.model.accountsToNotify || [];
     this.isSenderActive = false;
+    this.started = false;
 };
 Notifier.prototype.start = function () {
     var that = this;
+
+    this.started = true;
 
     this.intervalId = setInterval(function () {
         that._execute.call(that);
@@ -51,9 +44,22 @@ Notifier.prototype.start = function () {
 
     return this;
 };
-Notifier.prototype.stop = function () {
+Notifier.prototype.stop = function (callback) {
+    this.started = false;
     clearInterval(this.intervalId);
-    return this;
+
+    if (this.accountsToNotify.length > 0) {
+        this.model.accountsToNotify = this.accountsToNotify;
+        this.model.save(function (err) {
+            if (err) {
+                return callback(err);
+            }
+            
+            callback();
+        });
+    } else {
+        callback();
+    }
 };
 Notifier.prototype._execute = function () {
     var that = this,
@@ -61,66 +67,68 @@ Notifier.prototype._execute = function () {
         rangeStart = this.model.lastCheck || new Date(),
         rangeEnd = new Date();
 
-    async.series([
+    if (this.started) {
+        async.series([
 
-        function findUpdatedPackages(callback) {
-            Package.find({
-                updatedAt: {
-                    $gte: rangeStart,
-                    $lt: rangeEnd
-                }
-            }, function (err, packages) {
-                if (err) {
-                    return callback(err);
-                }
-                updatedPackages = packages;
-                callback();
-            });
-        },
-
-        function findAccountsToNotify(callback) {
-            var pIds = updatedPackages.map(function (package) {
-                return package._id;
-            });
-            Account.find({
-                active: true,
-                _id: {
-                    $nin: that.accountsToNotify
-                },
-                alerts: {
-                    $in: pIds
-                }
-            }, '_id', function (err, accounts) {
-                if (err) {
-                    return callback(err);
-                }
-
-                var aIds = accounts.map(function (account) {
-                    return account._id;
+            function findUpdatedPackages(callback) {
+                Package.find({
+                    updatedAt: {
+                        $gte: rangeStart,
+                        $lt: rangeEnd
+                    }
+                }, function (err, packages) {
+                    if (err) {
+                        return callback(err);
+                    }
+                    updatedPackages = packages;
+                    callback();
                 });
-                that.accountsToNotify.push.apply(that.accountsToNotify, aIds);
-                callback();
-            });
-        },
+            },
 
-        function updateNotifierModel(callback) {
-            // Disabled for debugging purposes
-            that.model.lastCheck = rangeEnd;
-            that.model.save(callback);
-        }
+            function findAccountsToNotify(callback) {
+                var pIds = updatedPackages.map(function (package) {
+                    return package._id;
+                });
+                Account.find({
+                    active: true,
+                    _id: {
+                        $nin: that.accountsToNotify
+                    },
+                    alerts: {
+                        $in: pIds
+                    }
+                }, '_id', function (err, accounts) {
+                    if (err) {
+                        return callback(err);
+                    }
 
-    ], function (err) {
-        if (err) {
-            // TODO: handle it somehow
-            return console.log('Something went wrong when looking for accounts to notify!\nError message: %s\nError stack: %s', err.message, err.stack);
-        }
+                    var aIds = accounts.map(function (account) {
+                        return account._id;
+                    });
+                    that.accountsToNotify.push.apply(that.accountsToNotify, aIds);
+                    callback();
+                });
+            },
 
-        // Running notifications sender
-        that._sendNotifications();
-    });
+            function updateNotifierModel(callback) {
+                // Disabled for debugging purposes
+                that.model.lastCheck = rangeEnd;
+                that.model.save(callback);
+            }
+
+        ], function (err) {
+            if (err) {
+                // TODO: handle it somehow
+                return console.log('Something went wrong when looking for accounts to notify!\nError message: %s\nError stack: %s', err.message, err.stack);
+            }
+
+            // Running notifications sender
+            that._sendNotifications();
+        });
+    }
 };
 Notifier.prototype._sendNotifications = function () {
-    if (!this.isSenderActive && this.accountsToNotify.length > 0) {
+    if (this.started && !this.isSenderActive && this.accountsToNotify.length > 0) {
 
         // Setting sender to active state
         this.isSenderActive = true;

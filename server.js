@@ -24,20 +24,5 @@ http.createServer(app).listen(app.get('port'), app.get('ip'), function () {
     console.log('Express server listening on port ' + app.get('port'));
 });
 
-// Start npm monitoring service
-require('./server/monitors').npm.start(function (err) {
-    if (err) {
-        // TODO: send email to admin
-        return console.log('Error starting npm monitoring service: %s\n%s', err.message, err.stack);
-    }
-    console.log('npm monitor started');
-});
-
-// Start notifier service
-require('./server/notifier').start('hourly', function (err) {
-    if (err) {
-        // TODO: send email to admin
-        return console.log('Error starting hourly notifier service: %s\n%s', err.message, err.stack);
-    }
-    console.log('hourly notifier started');
-});
+// Starting app background services
+require('./config/services');

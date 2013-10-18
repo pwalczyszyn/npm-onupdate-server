@@ -1,5 +1,19 @@
 /* jshint node:true */
+var mongoose = require('mongoose'),
+    Account = mongoose.model('Account'),
+    Package = mongoose.model('Package');
 
-module.exports = function (req, res) {
-    res.send(200);
+module.exports = function (req, res, next) {
+
+    Account.findById(req.user.id, 'alerts', function (err, result) {
+        if (err) {
+            return next(err);
+        }
+        res.writeHead(200, {
+            'Content-Type': 'application/json'
+        });
+        res.write(JSON.stringify(result ? result.alerts : []));
+        res.end();
+    });
+
 };
