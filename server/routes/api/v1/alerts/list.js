@@ -9,11 +9,21 @@ module.exports = function (req, res, next) {
         if (err) {
             return next(err);
         }
-        res.writeHead(200, {
-            'Content-Type': 'application/json'
-        });
-        res.write(JSON.stringify(result ? result.alerts : []));
-        res.end();
-    });
 
+        Package.find({
+            _id: {
+                $in: result.alerts || []
+            }
+        }, function (err, packages) {
+            if (err) {
+                return next(err);
+            }
+
+            res.writeHead(200, {
+                'Content-Type': 'application/json'
+            });
+            res.write(JSON.stringify(packages));
+            res.end();
+        });
+    });
 };

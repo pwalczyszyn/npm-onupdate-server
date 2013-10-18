@@ -40,7 +40,7 @@ Monitor.prototype.start = function monitorStart() {
 Monitor.prototype.stop = function monitorStop(callback) {
     // Stopping the feed
     this.feed.stop();
-    
+
     // Setting last seq value
     var queueSeq = this.updatesQueue.length > 0 ? this.updatesQueue[0].seq : this.lastSeq;
     this.model.set('lastSeq', Math.min(this.lastSeq, queueSeq));
@@ -80,7 +80,7 @@ Monitor.prototype._processChange = function _processChange(change) {
 
                 if (response.statusCode != 200) {
                     // TODO: handle it somehow
-                    return console.log('Error getting package info: %s\nStatus code: %s', change.id, response.statusCode);
+                    return console.log('Error getting package info: %s\nStatus code: %s\nError reason: %s', change.id, response.statusCode, body.reason);
                 }
 
                 var latestVersion = body['dist-tags'].latest;
@@ -89,12 +89,12 @@ Monitor.prototype._processChange = function _processChange(change) {
                     console.log('Package version changed:', package);
 
                     package.version = latestVersion;
-                    package.updated_at = new Date();
+                    package.updatedAt = new Date();
 
                     var latest = body.versions[latestVersion];
                     if (latest) {
                         package.description = latest.description;
-                        package.homepage = latest.homepage || latest.url || null;
+                        package.homepage = latest.homepage || latest.url || 'https://npmjs.org/package/' + package.name;
                     }
 
                     package.save(function (err) {
