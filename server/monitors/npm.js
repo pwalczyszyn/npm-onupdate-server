@@ -88,6 +88,7 @@ Monitor.prototype._processChange = function _processChange(change) {
 
                     console.log('Package version changed:', package);
 
+                    package.prevVersion = package.version;
                     package.version = latestVersion;
                     package.updatedAt = new Date();
 

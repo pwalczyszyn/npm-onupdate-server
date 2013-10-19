@@ -16,12 +16,14 @@ module.exports = function () {
             required: true
         },
 
+        prevVersion: String,
+
         updatedAt: Date,
 
         homepage: String,
 
         description: String
-
+        
     });
 
     PackageSchema.static('findOneByName', function (name, callback) {
