@@ -6,7 +6,7 @@ module.exports = function () {
     var AccountSchema = new mongoose.Schema({
 
         email: {
-            type: mongoose.SchemaTypes.Email,
+            type: String, // mongoose.SchemaTypes.Email, - it's to restrictive doesn't allow + sign
             required: true,
             unique: true
         },
@@ -30,7 +30,7 @@ module.exports = function () {
                 type: mongoose.Schema.Types.ObjectId,
                 ref: 'Package'
             }]
-        });
+    });
 
     AccountSchema.static('findByAccessToken', function (token, callback) {
         this.findOne({
