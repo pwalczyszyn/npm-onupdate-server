@@ -7,48 +7,55 @@ var hat = require('hat'),
 
 module.exports = function (req, res, next) {
 
-    if (!req.body.email) {
-        return next(new Error('Missing account email address!'));
+    req.checkBody('email', 'Invalid email value').isEmail();
+    req.checkBody('password', 'Invalid password, 6 to 20 characters required').len(6, 20);
+    req.checkBody('tosAgreed', 'Terms of service not agreed').is(true);
+
+    var errors = req.validationErrors();
+    if (errors) {
+        return res.send(errors, 400);
     }
 
-    if (!req.body.password) {
-        return next(new Error('Missing account password!'));
-    }
-
-    if (!req.body.tosAgreed) {
-        return next(new Error('Terms of service not agreed!'));
-    }
-
-    var email = req.body.email.trim().toLowerCase(),
+    var email = req.sanitize('email').trim().toLowerCase(),
         password = req.body.password;
 
-
-    var account = new Account();
-    account.email = email;
-    account.pwdHash = passwordHash.generate(password);
-    account.active = false;
-    account.activationCode = hat();
-    account.accessToken = hat();
-
-    account.save(function (err, account) {
+    Account.findByEmail(email, function (err, result) {
         if (err) {
             return next(err);
         }
-
-        emails('activation', {
-            to: account.email,
-            from: req.app.get('noreply_email'),
-            subject: '[' + req.app.get('title') + '] Activation',
-            locals: {
-                activationCode: account.activationCode
-            }
-        }, function (err) {
-
+        if (result) {
+            return res.send([{
+                    param: 'email',
+                    msg: 'Account with that email already exists',
+                    value: email
+                }], 400);
+        }
+        var account = new Account();
+        account.email = email;
+        account.pwdHash = passwordHash.generate(password);
+        account.active = false;
+        account.activationCode = hat();
+        account.accessToken = hat();
+        account.save(function (err, account) {
             if (err) {
-                console.log('Error sending activation email: %s\n%s', err.message, err.stack);
+                return next(err);
             }
 
-            res.send(200);
+            emails('activation', {
+                to: account.email,
+                from: req.app.get('noreply_email'),
+                subject: '[' + req.app.get('title') + '] Activation',
+                locals: {
+                    activationCode: account.activationCode
+                }
+            }, function (err) {
+
+                if (err) {
+                    console.log('Error sending activation email: %s\n%s', err.message, err.stack);
+                }
+
+                res.send(200);
+            });
         });
     });
 };

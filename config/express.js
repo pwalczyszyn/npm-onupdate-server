@@ -1,6 +1,7 @@
 /* jshint node: true */
 var path = require('path'),
-    express = require('express');
+    express = require('express'),
+    expressValidator = require('express-validator');
 
 module.exports = function (app) {
 
@@ -12,6 +13,7 @@ module.exports = function (app) {
     app.use(express.logger('dev'));
     app.use(express.json()).use(express.urlencoded());
     app.use(express.methodOverride());
+    app.use(expressValidator());
     app.use(app.router);
 
     // development only

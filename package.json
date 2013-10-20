@@ -19,7 +19,8 @@
     "request": "~2.27.0",
     "follow": "~0.10.1",
     "email-templates": "~0.1.0",
-    "emailjs": "~0.3.6"
+    "emailjs": "~0.3.6",
+    "express-validator": "~0.8.0"
   },
   "engines": {
     "node": ">= 0.6.0",

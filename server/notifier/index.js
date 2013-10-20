@@ -48,18 +48,14 @@ Notifier.prototype.stop = function (callback) {
     this.started = false;
     clearInterval(this.intervalId);
 
-    if (this.accountsToNotify.length > 0) {
-        this.model.accountsToNotify = this.accountsToNotify;
-        this.model.save(function (err) {
-            if (err) {
-                return callback(err);
-            }
-            
-            callback();
-        });
-    } else {
+    this.model.accountsToNotify = this.accountsToNotify;
+    this.model.save(function (err) {
+        if (err) {
+            return callback(err);
+        }
+
         callback();
-    }
+    });
 };
 Notifier.prototype._execute = function () {
     var that = this,
@@ -138,7 +134,7 @@ Notifier.prototype._sendNotifications = function () {
             account,
             updatedPackages,
             newNotifiedAt = new Date();
-
+        console.log(aId);
         async.series([
 
             function findAccount(callback) {
@@ -179,14 +175,24 @@ Notifier.prototype._sendNotifications = function () {
             },
 
             function sendNotification(callback) {
-                emails('onupdate', {
-                    to: account.email,
-                    from: app.get('noreply_email'),
-                    subject: '[' + app.get('title') + '] Updates available',
-                    locals: {
-                        updates: updatedPackages
-                    }
-                }, callback);
+                if (updatedPackages.length > 0) {
+                    emails('onupdate', {
+                        to: account.email,
+                        from: app.get('noreply_email'),
+                        subject: '[' + app.get('title') + '] Updates available',
+                        locals: {
+                            updates: updatedPackages
+                        }
+                    }, callback);
+                } else {
+                    console.log('****************************************************************************');
+                    console.log('ERROR: Check why no packages with updates were found:\nAccount:', account.email, '\nPacakges updatedAt: ', {
+                        $gte: account.notifiedAt || account._id.getTimestamp(),
+                        $lt: newNotifiedAt
+                    }, '\nAccount alerts: ', account.alerts, '\naccountsToNotify: ', that.accountsToNotify);
+                    console.log('****************************************************************************');
+                    callback();
+                }
             },
 
             function updateAccount(callback) {
