@@ -8,7 +8,8 @@ var configs = {
         smtp_tls: true,
         smtp_user: process.env.SMTP_USER,
         smtp_password: process.env.SMTP_PASSWORD,
-        noreply_email: 'noreply@onupdate.info'
+        noreply_email: 'noreply@onupdate.info',
+        start_bg_services: true
     },
     local: {
         url: 'http://localhost:3000',
@@ -19,7 +20,8 @@ var configs = {
     openshift: {
         ip: process.env.OPENSHIFT_NODEJS_IP,
         port: process.env.OPENSHIFT_NODEJS_PORT,
-        db: 'mongodb://' + process.env.OPENSHIFT_MONGODB_DB_USERNAME + ':' + process.env.OPENSHIFT_MONGODB_DB_PASSWORD + '@' + process.env.OPENSHIFT_MONGODB_DB_HOST + ':' + process.env.OPENSHIFT_MONGODB_DB_PORT + '/' + process.env.OPENSHIFT_APP_NAME
+        db: 'mongodb://' + process.env.OPENSHIFT_MONGODB_DB_USERNAME + ':' + process.env.OPENSHIFT_MONGODB_DB_PASSWORD + '@' + process.env.OPENSHIFT_MONGODB_DB_HOST + ':' + process.env.OPENSHIFT_MONGODB_DB_PORT + '/' + process.env.OPENSHIFT_APP_NAME,
+        start_bg_services: '5264e8ea5004469c53000067' == process.env.OPENSHIFT_GEAR_UUID
     }
 };
 

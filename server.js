@@ -25,4 +25,7 @@ http.createServer(app).listen(app.get('port'), app.get('ip'), function () {
 });
 
 // Starting app background services
-require('./config/services');
+require('./config/services')(app);
+
+
+console.log(process.env.OPENSHIFT_GEAR_NAME, process.env.OPENSHIFT_GEAR_UUID, process.env.OPENSHIFT_GEAR_DNS);
