@@ -1,5 +1,36 @@
 <% include ../common/header %>
 
-<h1>onUpdate.info</h1>
+<h1>npm-onupdate</h1>
+
+<p>
+    <a href="https://npmjs.org/">NPM</a> registry email notifications service.
+</p>
+
+<h3>INSTALLATION</h3>
+<code>
+    > npm install -g npm-onupdate
+</code>
+
+<h3>USAGE</h3>
+<h4>Adding new package alert</h4>
+<code>
+    > npm-onupdate add express
+</code>
+<h4>Adding multiple package alerts</h4>
+<code>
+    > npm-onupdate add 'express ejs'
+</code>
+<h4>Removing package alert</h4>
+<code>
+    > npm-onupdate rm express
+</code>
+<h4>Removing multiple package alerts</h4>
+<code>
+    > npm-onupdate rm 'express ejs'
+</code>
+<h4>Listing all registered alerts</h4>
+<code>
+    > npm-onupdate ls
+</code>
 
 <% include ../common/footer %>
