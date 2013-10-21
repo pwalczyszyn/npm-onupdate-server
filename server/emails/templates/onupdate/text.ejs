@@ -2,7 +2,10 @@ We have found some updates for you:
 
 <%for(var i = 0, len = updates.length, update; i < len; i++) {
     update = updates[i];%>
-    <%= update.name %>
+        * <%= update.name %> [<%= update.prevVersion %> =&gt; <%= update.version %>] - <%= update.description %> (<%= update.homepage %>)
+
 <%}%>
+
+To remove alerts just run this command: > npm-onupdate rm packageName
 
 Thank you for using <%=title%>!

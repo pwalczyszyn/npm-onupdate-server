@@ -91,13 +91,13 @@ Monitor.prototype._processChange = function _processChange(change) {
                     package.prevVersion = package.version;
                     package.version = latestVersion;
                     package.updatedAt = new Date();
+                    package.registryUpdatedAt = new Date(body.time[latestVersion]);
 
                     var latest = body.versions[latestVersion];
                     if (latest) {
                         package.description = latest.description;
                         package.homepage = latest.homepage || latest.url || 'https://npmjs.org/package/' + package.name;
                     }
-
                     package.save(function (err) {
                         if (err) {
                             return console.log('Error saving updated package: %s\nError message: %s\n%s', package.name, err.message, err.stack);

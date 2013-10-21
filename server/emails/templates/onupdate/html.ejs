@@ -3,8 +3,14 @@
 <p>
     <%for(var i = 0, len = updates.length, update; i < len; i++) {
         update = updates[i];%>
-        <%= update.name %>
+        <p>
+        * <a href="<%= update.homepage %>" target="_blank" style="text-decoration:none; font-weight: bold"><%= update.name %></a> [<%= update.prevVersion %> =&gt; <%= update.version %>] - <%= update.description %>
+        </p>
     <%}%>
+</p>
+
+<p style="color:#999">
+    To remove alerts just run this command: > npm-onupdate rm packageName
 </p>
 
 <p><b>Thank you for using <%=title%>!</b></p>

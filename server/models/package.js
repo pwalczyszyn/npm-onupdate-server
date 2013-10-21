@@ -19,6 +19,8 @@ module.exports = function () {
         prevVersion: String,
 
         updatedAt: Date,
+        
+        registryUpdatedAt: Date,
 
         homepage: String,
 
