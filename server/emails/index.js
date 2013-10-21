@@ -4,7 +4,7 @@ var path = require('path'),
     templatesDir = path.join(__dirname, 'templates'),
     emailTemplates = require('email-templates'),
     emailjs = require('emailjs'),
-    app = require('../../server'),
+    app = require('../../server').app,
     emailServer = emailjs.server.connect({
         host: app.get('smtp_host'),
         tls: app.get('smtp_tls'),

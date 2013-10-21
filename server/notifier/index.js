@@ -1,6 +1,6 @@
 /* jshint node:true */
 
-var app = require('../../server'),
+var app = require('../../server').app,
     async = require('async'),
     util = require('util'),
     emails = require('../emails'),
