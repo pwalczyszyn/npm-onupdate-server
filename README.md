@@ -1,3 +1,4 @@
-The OpenShift `nodejs` cartridge documentation can be found at:
+npm-onupdate-server
+============
 
-https://github.com/openshift/origin-server/tree/master/cartridges/openshift-origin-cartridge-nodejs/README.md
+NPM registry email notification service. Let's you stay up-to-date with all the packages that you use in your node projects.
