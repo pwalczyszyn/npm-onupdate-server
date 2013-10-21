@@ -7,7 +7,7 @@
     "start": "node server.js"
   },
   "dependencies": {
-    "express": "~3.4.1",
+    "express": "~3.4.2",
     "mongoose": "~3.6.20",
     "ejs": "~0.8.4",
     "async": "~0.2.9",
