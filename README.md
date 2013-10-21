@@ -7,4 +7,4 @@ The main way of interacting with the service is by using `npm-update` CLI tool, 
 
 ###License
 
-    MIT
+  MIT
