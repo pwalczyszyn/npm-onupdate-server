@@ -10,10 +10,15 @@ module.exports = function (app) {
     app.post('/account/password', routes.public.account.password.request);
     app.get('/account/password/:passwordCode', routes.public.account.password.set);
     app.post('/account/password/:passwordCode', routes.public.account.password.set);
-    
+
     app.get('/account/activate/:activationCode', routes.apiv1.account.activate);
     app.post('/api/v1/account/register', routes.apiv1.account.register);
     app.post('/api/v1/account/authenticate', routes.apiv1.account.authenticate);
+
+
+    app.get('/api/v1/account/show', authenticated(), routes.apiv1.account.show);
+    app.put('/api/v1/account/password', authenticated(), routes.apiv1.account.password);
+    app.delete('/api/v1/account/delete', authenticated(), routes.apiv1.account.delete);
 
     app.get('/api/v1/checktoken', authenticated(), routes.apiv1.checktoken);
 
