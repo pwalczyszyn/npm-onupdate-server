@@ -8,7 +8,8 @@ var configs = {
         smtp_tls: true,
         smtp_user: process.env.SMTP_USER,
         smtp_password: process.env.SMTP_PASSWORD,
-        noreply_email: 'noreply@npm-onupdate.info',
+        noreply_email: '<npm-onupdate> noreply@npm-onupdate.info',
+        admin_email: '<admin@npm-onupdate> admin@npm-onupdate.info',
         start_bg_services: true
     },
     local: {
