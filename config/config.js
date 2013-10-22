@@ -2,13 +2,13 @@
 
 var configs = {
     defaults: {
-        title: 'onUpdate.info',
-        url: 'http://onupdate.info',
+        title: 'npm-onupdate',
+        url: 'http://npm-onupdate.info',
         smtp_host: process.env.SMTP_HOST, // 'email-smtp.us-east-1.amazonaws.com'
         smtp_tls: true,
         smtp_user: process.env.SMTP_USER,
         smtp_password: process.env.SMTP_PASSWORD,
-        noreply_email: 'noreply@onupdate.info',
+        noreply_email: 'noreply@npm-onupdate.info',
         start_bg_services: true
     },
     local: {
