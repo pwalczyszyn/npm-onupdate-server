@@ -14,6 +14,10 @@ module.exports = function (req, res, next) {
             _id: {
                 $in: result.alerts || []
             }
+        }, null, {
+            sort: {
+                'name': 1
+            }
         }, function (err, packages) {
             if (err) {
                 return next(err);

@@ -134,7 +134,7 @@ Notifier.prototype._sendNotifications = function () {
             account,
             updatedPackages,
             newNotifiedAt = new Date();
-        console.log(aId);
+
         async.series([
 
             function findAccount(callback) {
