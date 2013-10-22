@@ -6,6 +6,11 @@ module.exports = function (app) {
 
     app.get('/', routes.public.home);
 
+    app.get('/account/password', routes.public.account.password.request);
+    app.post('/account/password', routes.public.account.password.request);
+    app.get('/account/password/:passwordCode', routes.public.account.password.set);
+    app.post('/account/password/:passwordCode', routes.public.account.password.set);
+    
     app.get('/account/activate/:activationCode', routes.apiv1.account.activate);
     app.post('/api/v1/account/register', routes.apiv1.account.register);
     app.post('/api/v1/account/authenticate', routes.apiv1.account.authenticate);

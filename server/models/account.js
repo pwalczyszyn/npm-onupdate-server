@@ -19,6 +19,8 @@ module.exports = function () {
         activationCode: String,
 
         pwdHash: String,
+        
+        passwordCode: String,
 
         newPwdCode: String,
 
@@ -30,11 +32,17 @@ module.exports = function () {
                 type: mongoose.Schema.Types.ObjectId,
                 ref: 'Package'
             }]
-    });
+        });
 
     AccountSchema.static('findByAccessToken', function (token, callback) {
         this.findOne({
             accessToken: token
+        }, callback);
+    });
+    
+    AccountSchema.static('findByPasswordCode', function (passwordCode, callback) {
+        this.findOne({
+            passwordCode: passwordCode
         }, callback);
     });
 

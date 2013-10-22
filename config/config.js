@@ -8,9 +8,11 @@ var configs = {
         smtp_tls: true,
         smtp_user: process.env.SMTP_USER,
         smtp_password: process.env.SMTP_PASSWORD,
-        noreply_email: '<npm-onupdate> noreply@npm-onupdate.info',
-        admin_email: '<admin@npm-onupdate> admin@npm-onupdate.info',
-        start_bg_services: true
+        noreply_email: 'npm-onupdate <noreply@npm-onupdate.info>',
+        admin_email: 'npm-onupdate admin <admin@npm-onupdate.info>',
+        start_bg_services: true,
+        captcha_public_key: process.env.CAPTCHA_PUBLIC_KEY,
+        captcha_private_key: process.env.CAPTCHA_PRIVATE_KEY
     },
     local: {
         url: 'http://localhost:3000',
