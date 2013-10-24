@@ -3,8 +3,11 @@ var passport = require('passport'),
     routes = require('../server/routes');
 
 module.exports = function (app) {
-
-    app.get('/', routes.public.home);
+    app.get('/', render('public/home'));
+    app.get('/about', render('public/about'));
+    app.get('/docs', render('public/docs'));
+    app.get('/policy', render('public/policy'));
+    app.get('/terms', render('public/terms'));
 
     app.get('/account/password', routes.public.account.password.request);
     app.post('/account/password', routes.public.account.password.request);
@@ -25,11 +28,17 @@ module.exports = function (app) {
     app.get('/api/v1/alerts', authenticated(), routes.apiv1.alerts.list);
     app.post('/api/v1/alerts', authenticated(), routes.apiv1.alerts.add);
     app.delete('/api/v1/alerts', authenticated(), routes.apiv1.alerts.remove);
-
 };
 
 function authenticated() {
     return passport.authenticate('bearer', {
         session: false
     });
+}
+
+
+function render(page) {
+    return function (req, res) {
+        res.render(page);
+    };
 }

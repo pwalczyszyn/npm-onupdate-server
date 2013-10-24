@@ -1,39 +1,49 @@
+<% include ../common/head %>
 <% include ../common/header %>
 
-<h1>npm-onupdate</h1>
+        <div class="main-container clearfix">
+            <div class="main wrapper">
+                <div>
+                    <div class="tut-step">
+                        <div class="tut-step__title">
+                            <img src="static/img/install.png" class="tut-step__title__img">  
+                            installation
+                        </div>
+                        <div class="tut-step__content">
+                            Couldn’t be simpler than that:
+                            <div class="code-block">
+                                $ npm install -g npm-onupdate
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tut-step">
+                        <div class="tut-step__title">
+                            <img src="static/img/bell.png" class="tut-step__title__img">  
+                            usage
+                        </div>
+                        <div class="tut-step__content">
+                            Adding new package alert:
+                            <div class="code-block">
+                                $ npm-onupdate add express
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tut-step">
+                        <div class="tut-step__title">
+                            <img src="static/img/email.png" class="tut-step__title__img">  
+                            notifications
+                        </div>
+                        <div class="tut-step__content">
+                            Sit down, relax, and wait for the notifications to show up in your mailbox.
+                        </div>
+                    </div>
+                </div>
+                <p class="docs-info">
+                    <a href="docs" class="docs-info__link" title="npm-onupdate docs">~ complete documentation can be found here ~</a>
+                </p>
+            </div> <!-- #main -->
+            
+        </div> <!-- #main-container -->
 
-<p>
-    <a href="https://npmjs.org/">NPM</a> registry email notifications service.  Let's you stay up-to-date with all the packages that you use in your Node.js projects. When npm package is updated you will receive an email message about it.
-</p>
-<p>
-The main way of interacting with the service is by using <code>npm-onupdate</code> CLI tool, installation and usage instructions can be found below:
-</p>
-
-<h3>INSTALLATION</h3>
-<code>
-    > npm install -g npm-onupdate
-</code>
-
-<h3>USAGE</h3>
-<h4>Adding new package alert</h4>
-<code>
-    > npm-onupdate add express
-</code>
-<h4>Adding multiple package alerts</h4>
-<code>
-    > npm-onupdate add 'express ejs'
-</code>
-<h4>Removing package alert</h4>
-<code>
-    > npm-onupdate rm express
-</code>
-<h4>Removing multiple package alerts</h4>
-<code>
-    > npm-onupdate rm 'express ejs'
-</code>
-<h4>Listing all registered alerts</h4>
-<code>
-    > npm-onupdate ls
-</code>
-
+<% include ../common/footer-links %>
 <% include ../common/footer %>

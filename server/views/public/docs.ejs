@@ -1,0 +1,37 @@
+<% include ../common/head %>
+<% include ../common/header %>
+
+        <div class="main-container clearfix">
+            <div class="main wrapper textual-block">
+                <h3>INSTALLATION</h3>
+                <code>
+                    $ npm install -g npm-onupdate
+                </code>
+                
+                <h3>USAGE</h3>
+                <h4>Adding new package alert</h4>
+                <code>
+                    $ npm-onupdate add express
+                </code>
+                <h4>Adding multiple package alerts</h4>
+                <code>
+                    $ npm-onupdate add 'express ejs'
+                </code>
+                <h4>Removing package alert</h4>
+                <code>
+                    $ npm-onupdate rm express
+                </code>
+                <h4>Removing multiple package alerts</h4>
+                <code>
+                    $ npm-onupdate rm 'express ejs'
+                </code>
+                <h4>Listing all registered alerts</h4>
+                <code>
+                    $ npm-onupdate ls
+                </code>
+            </div> <!-- #main -->
+            
+        </div> <!-- #main-container -->
+
+<% include ../common/footer-links %>
+<% include ../common/footer %>
