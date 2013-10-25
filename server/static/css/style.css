@@ -159,8 +159,11 @@ h3.page-title {
   margin-top: 1.8em;
   font-size: 1.25em;
 }
-.code-block {
+.tut-step__content .code-block {
   display: block;
+}
+.code-block {
+  display: inline-block;
   color: #adadad;
   font-family: source-code-pro 'courier new';
   padding: 0.4em;
@@ -168,11 +171,15 @@ h3.page-title {
   background: #f8f8f8;
   border: 1px solid #dfdfdf;
   border-radius: 2.999999px;
-  margin-top: 1.5em;
 }
 @media (max-width: 74em) {
   .code-block {
-    font-size: 0.7em;
+    font-size: 0.73em;
+  }
+}
+@media (max-width: 39em) {
+  .code-block {
+    font-size: 0.77em;
   }
 }
 .docs-info {
@@ -184,9 +191,11 @@ h3.page-title {
 .docs-info__link {
   color: #964444;
   text-decoration: none;
+  padding: 1em;
 }
 footer.wrapper {
   margin-top: 3em;
+  margin-bottom: 2em;
   text-align: center;
   font-size: 1.2em;
   color: #D5D5D5;
@@ -205,4 +214,19 @@ footer.wrapper a {
   font-size: 1.2em;
   line-height: 1.6em;
   padding: 2em;
+}
+.social-links {
+  display: inline-block;
+}
+@media (max-width: 36em) {
+  .social-links {
+    display: block;
+    margin-bottom: 1em;
+  }
+  .social-links .footer-icon {
+    height: 1.5em;
+  }
+  .social-links span {
+    display: none;
+  }
 }

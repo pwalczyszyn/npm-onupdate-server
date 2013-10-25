@@ -9,7 +9,7 @@ module.exports = function (app) {
     app.set('views', path.join(__dirname, '../server/views'));
     app.set('view engine', 'ejs');
     app.use('/static', express.static(path.join(__dirname, '../server/static')));
-    app.use(express.favicon('static/img/icon.png'));
+    app.use(express.favicon(path.join(__dirname, '../server/static/img/icon.png')));
     app.use(express.json()).use(express.urlencoded());
     app.use(express.methodOverride());
     app.use(expressValidator());

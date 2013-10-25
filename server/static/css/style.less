@@ -130,9 +130,13 @@ h3.page-title {
 .tut-step__content {
     margin-top: 1.8em;
     font-size: 1.25em;
+    
+    .code-block {
+        display: block;
+    }
 }
 .code-block {
-    display: block;
+    display: inline-block;
     color: rgb(173, 173, 173);
     font-family: source-code-pro'courier new';
     padding: 0.4em;
@@ -140,9 +144,11 @@ h3.page-title {
     background: rgb(248, 248, 248);
     border: 1px solid rgb(223, 223, 223);
     border-radius: 2.999999px;
-    margin-top: 1.5em;
     @media (max-width: 74em) {
-        font-size:0.7em;
+        font-size:0.73em;
+    }
+    @media (max-width: 39em) {
+        font-size: 0.77em;
     }
 }
 .docs-info {
@@ -154,9 +160,11 @@ h3.page-title {
 .docs-info__link {
     color: #964444;
     text-decoration: none;
+    padding: 1em;
 }
 footer.wrapper {
     margin-top: 3em;
+    margin-bottom: 2em;
     text-align: center;
     font-size: 1.2em;
     color: #D5D5D5;
@@ -175,4 +183,18 @@ footer.wrapper a {
     font-size: 1.2em;
     line-height: 1.6em;
     padding: 2em;
+}
+
+.social-links {
+    display: inline-block;
+    @media (max-width: 36em) {
+        display: block;
+        margin-bottom: 1em;
+        .footer-icon {
+            height: 1.5em;
+        }
+        span {
+            display: none;
+        }
+    }
 }
