@@ -1,6 +1,7 @@
 {
-  "name": "npm-onupdate.info",
+  "name": "npm-onupdate-server",
   "version": "1.0.0",
+  "description": "npm-onupdate.info service",
   "private": true,
   "main": "server.js",
   "scripts": {
