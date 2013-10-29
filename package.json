@@ -8,7 +8,7 @@
     "start": "node server.js"
   },
   "dependencies": {
-    "express": "~3.4.2",
+    "express": "~3.4.3",
     "mongoose": "~3.6.20",
     "ejs": "~0.8.4",
     "async": "~0.2.9",
@@ -16,7 +16,7 @@
     "passport-http-bearer": "~1.0.1",
     "password-hash": "~1.2.1",
     "mongoose-types": "~1.0.3",
-    "hat": "~0.0.3",
+    "hat": "0.0.3",
     "request": "~2.27.0",
     "follow": "~0.10.1",
     "email-templates": "~0.1.0",
