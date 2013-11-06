@@ -13,7 +13,7 @@ exports.start = function (callback) {
         if (!result) {
             return callback(new Error('npm monitor config not found'));
         }
-        
+
         var monitor = new Monitor(result);
         callback(null, monitor.start());
     });
@@ -21,15 +21,13 @@ exports.start = function (callback) {
 
 var Monitor = function MonitorConstructor(monitorModel) {
     this.model = monitorModel;
-    this.updatesQueue = [];
-    this.lastSeq = this.model.get('lastSeq');
     this.feed = new follow.Feed({
         db: 'http://isaacs.iriscouch.com/registry',
         include_docs: false,
-        since: this.lastSeq
+        since: this.model.get('lastSeq')
     });
     this.feed.on('change', this._processChange.bind(this));
-    this.feed.on('error', function(err) {
+    this.feed.on('error', function (err) {
         // TODO: send email with error to admin
         console.log('follow.Feed has experienced some serious error: %s\n%s', err.message, err.stack);
     });
@@ -42,23 +40,19 @@ Monitor.prototype.start = function monitorStart() {
 Monitor.prototype.stop = function monitorStop(callback) {
     // Stopping the feed
     this.feed.stop();
-
-    // Setting last seq value
-    var queueSeq = this.updatesQueue.length > 0 ? this.updatesQueue[0].seq : this.lastSeq;
-    this.model.set('lastSeq', Math.min(this.lastSeq, queueSeq));
-    console.log('Setting npmMonitor.lastSeq:', this.model.get('lastSeq'));
-    this.model.save(function (err) {
-        if (err) {
-            return callback(err);
-        }
-        return callback();
-    });
+    callback();
 };
 Monitor.prototype._processChange = function _processChange(change) {
-    var that = this;
+    console.log('%s has changed: %j', change.id, change);
 
-    // Getting higher value
-    this.lastSeq = Math.max(change.seq, this.lastSeq);
+    this.model.set('lastSeq', Math.max(change.seq, this.model.get('lastSeq')));
+    this.model.set('lastChangeAt', new Date());
+    this.model.save(function (err) {
+        if (err) {
+            // TODO: send email to admin
+            console.log('Error updating npm monitor data model: %s\n%s', err.message, err.stack);
+        }
+    });
 
     Package.findOneByName(change.id, function (err, package) {
         if (err) {
@@ -67,9 +61,6 @@ Monitor.prototype._processChange = function _processChange(change) {
         }
 
         if (package) {
-            // Pushing to queue of updates
-            that.updatesQueue.push(change);
-
             request({
                 url: 'http://registry.npmjs.org/' + package.name,
                 json: {}
@@ -104,10 +95,7 @@ Monitor.prototype._processChange = function _processChange(change) {
                         if (err) {
                             return console.log('Error saving updated package: %s\nError message: %s\n%s', package.name, err.message, err.stack);
                         }
-                        that.updatesQueue.splice(that.updatesQueue.indexOf(change), 1);
                     });
-                } else {
-                    that.updatesQueue.splice(that.updatesQueue.indexOf(change), 1);
                 }
             });
         }

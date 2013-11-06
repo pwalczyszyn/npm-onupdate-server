@@ -7,7 +7,8 @@ module.exports = function () {
         _id: {
             type: String,
             required: true
-        }
+        },
+        lastChangeAt: Date
     }, {
         strict: false
     });
