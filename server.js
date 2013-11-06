@@ -24,6 +24,7 @@ require('./config/routes')(app);
 require('./config/services')(app);
 
 function start(callback) {
+    console.log('Starting Express server at %s:%s...', app.get('ip'), app.get('port'));
     // Start the server
     server.listen(app.get('port'), app.get('ip'), function () {
         console.log('Express server listening on port ' + app.get('port'));
