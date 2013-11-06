@@ -6,17 +6,15 @@ var mongoose = require('mongoose'),
     follow = require('follow');
 
 exports.start = function (callback) {
-
     MonitorModel.findById('npm', function (err, result) {
         if (err) {
             return callback(err);
         }
-
-        var monitorModel = result || new MonitorModel({
-            _id: 'npm',
-            lastSeq: 727094
-        }),
-            monitor = new Monitor(monitorModel);
+        if (!result) {
+            return callback(new Error('npm monitor config not found'));
+        }
+        
+        var monitor = new Monitor(result);
         callback(null, monitor.start());
     });
 };
@@ -31,6 +29,10 @@ var Monitor = function MonitorConstructor(monitorModel) {
         since: this.lastSeq
     });
     this.feed.on('change', this._processChange.bind(this));
+    this.feed.on('error', function(err) {
+        // TODO: send email with error to admin
+        console.log('follow.Feed has experienced some serious error: %s\n%s', err.message, err.stack);
+    });
 };
 
 Monitor.prototype.start = function monitorStart() {
