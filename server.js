@@ -21,7 +21,7 @@ require('./config/express')(app);
 require('./config/routes')(app);
 
 // Starting app background services
-require('./config/services')(app);
+//require('./config/services')(app);
 
 function start(callback) {
     console.log('Starting Express server at %s:%s...', app.get('ip'), app.get('port'));
